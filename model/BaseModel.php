@@ -15,7 +15,7 @@ abstract class BaseModel
 	public function all() 
 	{
 		return $this->pdo->query("SELECT * FROM {$this->table}");
-		/*//было   $sql = "SELECT * FROM {$this->table}";
+		/*//было      $sql = "SELECT * FROM {$this->table}";
 		$query = $this->db->prepare($sql);
 		$query->execute();
 
