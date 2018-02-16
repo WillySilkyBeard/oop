@@ -26,6 +26,20 @@ class BaseController
 		die;
 	}
 
+	protected function generate($path, $vars = [])
+	{
+		ob_start();
+		extract($vars);
+		include($path);
+		$res = ob_get_clean();
+		return $res;
+	}
+
+	protected function getRedirect($url) {
+		header("Location: $url");
+		die;
+	}
+
 //базовый шаблон
 	public function render() 
 	{

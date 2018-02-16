@@ -23,15 +23,6 @@ class ArticleModel extends BaseModel
 		$this->pk = 'id_article';
 	}
 
-/*// шаблон
-	function template($path, $vars= []) {
-		ob_start();
-		extract($vars);
-		include($path);
-		$res = ob_get_clean();
-		return $res;
-	}*/
-
 //функция для очистки полей от пробелов, спец.символов и php/html тегов
 	function clean($var = "") {  
 		$var = trim($var);
@@ -58,11 +49,11 @@ class ArticleModel extends BaseModel
 		return $errors;
 	}
 
-
 // edit GET редактировать статью
-	public function edit_show($title, $content, $id) {
+
+/*	public function edit_show($title, $content, $id) {
 		$sql = "SELECT * FROM articles WHERE id_article=$id";
-		$query = $this->db->prepare($sql);
+		$query = $this->pdo->prepare($sql);
 		$query->execute();
 
 		if ($query->errorCode() != \PDO::ERR_NONE) {
@@ -72,9 +63,9 @@ class ArticleModel extends BaseModel
 		}
 		$article = $query->fetch();
 		return $article;
-	}
+	}*/
 // add добавить статью
-	public function add($title, $content) {
+	/*public function add($title, $content) {
 		$sql = "INSERT INTO articles (title, content) VALUES (:title, :content)";
 		$query = $this->db->prepare($sql);
 
@@ -86,10 +77,10 @@ class ArticleModel extends BaseModel
 			echo implode('<br>', $info);
 			die();
 		}
-		return true/*$db->lastInsertId()*/;
-	}
+		return true/*$db->lastInsertId()/;
+	}*/
 // edit изменить статью
-	public function edit_update($title, $content, $id) {
+/*	public function edit_update($title, $content, $id) {
 		$sql = "UPDATE articles SET title=:title, content=:content WHERE id_article=$id"; 
 		$query = $this->db->prepare($sql);
 		$params = ['title' => $title, 'content' => $content];
@@ -101,6 +92,6 @@ class ArticleModel extends BaseModel
 			die();
 		}
 		return true;
-	}
+	}*/
 
 }

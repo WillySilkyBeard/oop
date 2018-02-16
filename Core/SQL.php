@@ -57,7 +57,7 @@ class SQL{
 		$q = $this->db->prepare($query);
 		$q->execute($object);
 		
-		if($q->errorCode() != PDO::ERR_NONE){
+		if($q->errorCode() != \PDO::ERR_NONE){
 			$info = $q->errorInfo();
 			die($info[2]);
 		}
@@ -87,7 +87,7 @@ class SQL{
 		$q = $this->db->prepare($query);
 		$q->execute($object);
 
-		if($q->errorCode() != PDO::ERR_NONE){
+		if($q->errorCode() != \PDO::ERR_NONE){
 			$info = $q->errorInfo();
 			die($info[2]);
 		}
@@ -95,12 +95,12 @@ class SQL{
 		return $q->rowCount();
 	}
 	
-	public function Delete($table, $where){
+	public function delete($table, $where){
 		$query = "DELETE FROM $table WHERE $where";
 		$q = $this->db->prepare($query);
 		$q->execute();
 		
-		if($q->errorCode() != PDO::ERR_NONE){
+		if($q->errorCode() != \PDO::ERR_NONE){
 			$info = $q->errorInfo();
 			die($info[2]);
 		}

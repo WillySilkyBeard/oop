@@ -3,59 +3,67 @@ namespace model;
 use Core\SQL;
 abstract class BaseModel
 {
-	protected $db;
+	protected $pdo;
 	protected $table;
 	protected $pk;
 
 	public function __construct() 
 	{
-		$this->db = SQL::Instance();
+		$this->pdo = SQL::Instance();
 	}
 // index все статьи
-	public function all() 
+	public function all()
 	{
 		return $this->pdo->query("SELECT * FROM {$this->table}");
-		/*//было      $sql = "SELECT * FROM {$this->table}";
-		$query = $this->db->prepare($sql);
-		$query->execute();
-
-		if ($query->errorCode() != \PDO::ERR_NONE) {
-			$info = $query->errorinfo();
-			echo implode('<br>', $info);
-			die();
-		}
-
-		$result = $query->fetchAll();
-		return $result;*/
 	}
-
 // article отображение одной статьи
-	public function one($id) 
+	public function one($id)
 	{
-		$sql = "SELECT * FROM {$this->table} WHERE {$this->pk} = $id";
-		$query = $this->db->prepare($sql);
-		$query->execute();
+		$article = $this->pdo->query("SELECT * FROM {$this->table} WHERE {$this->pk} = $id");
 
-		if ($query->errorCode() != \PDO::ERR_NONE) {
-			$info = $query->errorinfo();
-			echo implode('<br>', $info);
-			die();
+		if(!$article) {
+			db_error_log($query);
+			return false;
+		} else {
+			return $article[0];
 		}
-		$article = $query->fetch();
-		return $article;
 	}
+// add добавить статью
+	public function add($title, $content)
+	{
+		$params = ['title' => $title, 'content' => $content];
+		$article = $this->pdo->insert($this->table, $params);
+		
 
-	// del удаление статьи
-	public function delete($id) {
-		$sql = "DELETE FROM {$this->table} WHERE {$this->pk} =$id";
-		$query = $this->db->prepare($sql);
-		$query->execute();
+	if (!$article/*->errorCode() != \PDO::ERR_NONE*/) {
+		$info = $article->errorinfo();
+		echo implode('<br>', $info);
+		die();
+	}
+	return true/*$db->lastInsertId()*/;
+}
 
-		if ($query->errorCode() != \PDO::ERR_NONE) {
-			$info = $query->errorinfo();
-			echo implode('<br>', $info);
-			die();
-		}
+	public function edit_update($title, $content, $id) {
+		/*$table, $object, $where*/
+		$where = "id_article=$id";
+		$params = ['title' => $title, 'content' => $content];
+		$article = $this->pdo->update($this->table, $params, $where);
+
+		$sql = "UPDATE articles SET title=:title, content=:content WHERE id_article=$id";
+			
 		return true;
 	}
+// показать что редактируем
+	public function edit_show($title, $content, $id) {
+		$article = $this->pdo->query("SELECT * FROM {$this->table} WHERE id_article=$id");
+		return $article[0];
+	}
+
+// del удаление статьи
+public function delete($id) {
+	$where = "id_article=$id";
+	$article = $this->pdo->delete($this->table, $where);
+	
+	return true;
+}
 }
