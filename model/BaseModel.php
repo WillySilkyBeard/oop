@@ -42,6 +42,33 @@ abstract class BaseModel
 	}
 	return true/*$db->lastInsertId()*/;
 }
+	public function addUser(array $fields/*$title, $content*/)
+	{
+		$params = ['login' => $fields['login'], 'password' => $fields['password']];
+		$article = $this->pdo->insert($this->table, $params);
+		
+
+	if (!$article/*->errorCode() != \PDO::ERR_NONE*/) {
+		$info = $article->errorinfo();
+		echo implode('<br>', $info);
+		die();
+	}
+	return true/*$db->lastInsertId()*/;
+}
+// userLogin 
+	public function findUser(array $fields)
+	{
+		$login = $fields['login'];
+		$password = $fields['password'];
+		$userInDB = $this->pdo->query("SELECT * FROM {$this->table} WHERE {$this->login} = $login, {$this->password} = $password");
+
+		if(!$userInDB) {
+			db_error_log($query);
+			return false;
+		} else {
+			return $userInDB[0];
+		}
+	}
 
 	public function edit_update($title, $content, $id) {
 		/*$table, $object, $where*/

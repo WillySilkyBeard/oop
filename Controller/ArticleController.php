@@ -8,7 +8,6 @@ use Core\users;
 
 class ArticleController extends BaseController
 {
-	protected $title;
 	protected $content;
 	protected $auth;
 
@@ -42,6 +41,7 @@ class ArticleController extends BaseController
 			$this->get404();
 		}
 
+		$this->title .= " ".$article['title'];
 		$this->content = Tmp::generate('view/v_article.php', [
 			'id' => $this->request->get['id'],
 			'title' => $article['title'],
@@ -71,6 +71,7 @@ class ArticleController extends BaseController
 			$content = '';
 			$errors = [];
 		}
+		$this->title .= ' Добавление..';
 		$this->content = Tmp::generate('view/v_add.php', [
 			'title' => $title,
 			'content' => $content,
@@ -98,7 +99,8 @@ class ArticleController extends BaseController
 				$mArticle->edit_update($title, $content, $id);
 				header("Location: /");
 				exit();
-			} 
+			}
+			$this->title .= ' Редактирование..';
 			$this->content = Tmp::generate('view/v_edit.php', [
 				'id' => $this->request->get['id'],
 				'title' => $title,
@@ -144,32 +146,5 @@ class ArticleController extends BaseController
 			exit();
 		}
 	}
-	public function login() {
-		$data = $_POST;
-
-		if (count($data) > 0) {
-
-			if ($_POST['login'] == 'user' && $_POST['password'] == '123') {
-				$_SESSION['auth'] = true;
-				
-				if (isset($data['remember'])) {
-					setcookie('login', 'user', time() + 3600);
-					setcookie('password', md5('123'), time() + 3600);
-				}
-				header('Location: /');
-				exit();
-			} 
-		}
-		else {
-			unset($_SESSION['auth']);
-			setcookie('login', 'user', time() - 3600 * 24 * 7);
-			setcookie('password', '123', time() - 3600 * 24 * 7);
-		}
-
-		$this->content = Tmp::generate('view/v_login.php', [
-			'title' => $title,
-			'content' => $content,
-			'errors' => $errors
-		]); 
-	}
+	
 }

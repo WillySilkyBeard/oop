@@ -32,6 +32,17 @@ class SQL{
 			
 		return $q->fetchAll();					
 	}
+	public function queryOne($query){
+		$q = $this->db->prepare($query);
+		$q->execute();
+		
+		if($q->errorCode() != \PDO::ERR_NONE){
+			$info = $q->errorInfo();
+			die($info[2]);
+		}
+			
+		return $q->fetch();					
+	}
 						// article   [ title => 'ddd', content => ]
 	public function insert($table , $object){
 		$columns = array();

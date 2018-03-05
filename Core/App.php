@@ -63,8 +63,12 @@ class App
 				'action' => 'deleteAction',
 			],
 			'/login' => [
-				'controller' => 'Controller\ArticleController',
-				'action' => 'login',
+				'controller' => 'Controller\UserController',
+				'action' => 'loginAction',
+			],
+			'/signUp' => [
+				'controller' => 'Controller\UserController',
+				'action' => 'signUpAction',
 			],
 			'default' => [
 				'controller' => 'Controller\BaseController',

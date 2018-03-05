@@ -7,9 +7,6 @@
 <br>
 <input id="pass" class="form-control" type="text" name="password">
 <br>
-<label for="checkbox" class="custom-control custom-checkbox">Запомнить меня</label>
-<input id="checkbox" class="custom-control-input" type="checkbox" name="remember" checked>
-<br>
-<input type="submit" class="btn btn-primary" name="do_login">
+<input type="submit" class="btn btn-primary" name="do_login" value="Регистрация">
 </form>
 <a href="/">назад</a>

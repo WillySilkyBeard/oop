@@ -4,6 +4,9 @@ namespace Core;
 
 class Request
 {
+	const METHOD_POST = 'POST';
+	const METHOD_GET = 'GET';
+
 	public $get;
 	public $post;
 	public $server;

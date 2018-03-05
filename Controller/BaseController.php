@@ -14,7 +14,7 @@ class BaseController
 	protected $request;
 
 	public function __construct(Request $request) {
-		$this->title = 'TestPageTitle';
+		$this->title = 'OOP';
 		$this->auth = Users::isAuth();
 		$this->request = $request;
 	}
@@ -26,14 +26,14 @@ class BaseController
 		die;
 	}
 
-	protected function generate($path, $vars = [])
+	/*protected function generate($path, $vars = [])
 	{
 		ob_start();
 		extract($vars);
 		include($path);
 		$res = ob_get_clean();
 		return $res;
-	}
+	}*/
 
 	protected function getRedirect($url) {
 		header("Location: $url");
@@ -44,6 +44,7 @@ class BaseController
 	public function render() 
 	{
 		echo Tmp::generate('view/table.php', [
+			'title' => $this->title,
 			'index' => $this->content,
 			'auth' => $this->auth
 		]); 
